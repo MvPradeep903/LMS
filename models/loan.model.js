@@ -25,7 +25,7 @@ const loanSchema = mongoose.Schema({
   downpayment: Number,
   status: [statusSchema], 
   customerMobile: Number,
-  customerName:String,
+  customerName:String, 
   emis:[emiSchema]
 },{timestamps: true});
 

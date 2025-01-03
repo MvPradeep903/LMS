@@ -14,7 +14,7 @@ app.use(bodyparser.urlencoded({extended:false}))
 app.use(bodyparser.json())
 
 
-mongoose.connect("mongodb+srv://sai:sai987654321@atlascluster.ym1yuin.mongodb.net/lms?retryWrites=true&w=majority&appName=AtlasCluster")
+mongoose.connect("mongodb+srv://jvdimvp:Pradeep903@cluster0.d2cwd.mongodb.net/LMS?retryWrites=true&w=majority&appName=Cluster0")
 
 
 var adminManagerAuthenticate = async (req,res,next)=>{
@@ -49,7 +49,9 @@ var adminauthenticate = async(req,res,next)=>{
           return res.json({msg:"token missing"})
         }
         var decoded =  jwt.verify(token,'secretkey');
+        console.log(decoded)
         var user = await User.findById(decoded._doc._id);
+        console.log("user",user)
         if(!user){
          return res.json({msg:"user not found"})
         }
@@ -153,7 +155,7 @@ app.get("/",adminManagerAuthenticate,async(req,res)=>{
 
 
 
-app.get("/loandetails/:id",adminManagerAuthenticate,async(req,res)=>{
+app.get(" /loandetails/:id",adminManagerAuthenticate,async(req,res)=>{
     try {
        var loandetails = await Loan.findOne({_id:req.params.id})
        var {_id,typeofloan,loanitem,productcost,intrest,downpayment,customerMobile,customerName} = loandetails
@@ -262,6 +264,7 @@ app.put("/disburseloan/:id",adminauthenticate,async(req,res)=>{
                 emiStatus: "not paid"
             });
         }
+        console.log(emiSchedule)
         await Loan.findOneAndUpdate(
             { _id: req.params.id },
             { $push: { emis: { $each: emiSchedule } } }
@@ -355,6 +358,6 @@ app.put("/removemanager/:id",adminauthenticate,async(req,res)=>{
 
 
 
-app.listen(7777,()=>{
+app.listen(5500,()=>{
     console.log('server is running on port 7777')
 })
